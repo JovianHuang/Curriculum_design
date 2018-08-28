@@ -18,21 +18,12 @@ int main(void)
 {
 
   // test module
-  //InfoNode *head, *current;
-  //head = HeadNode();
-  //current = NewNode(head);
-  int flag = 1;
-  while (flag) {
-    int a;
-    puts("a");
-    scanf("%d", &a);
-    if (a > 5) {
-      continue;
-    } else {
-      flag = 0;
-    }
-  }
- // FreeMemory(head);
+  InfoNode *head, *current;
+  head = HeadNode();
+  current = NewNode(head);
+  PrintGender(current);
+  FreeMemory(head);
+
   // test module
 
 

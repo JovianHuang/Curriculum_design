@@ -34,8 +34,9 @@ InfoNode * HeadNode(void) {
 InfoNode * NewNode(InfoNode *head) {
   InfoNode *current = (InfoNode *)malloc(sizeof(InfoNode));
   current->next = NULL;
-  GetId(head, current);
-  GetName(current);
+  //GetId(head, current);
+  //GetName(current);
+  GetGender(current);
 
 
   

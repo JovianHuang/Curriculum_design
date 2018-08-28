@@ -21,7 +21,31 @@ void GetName(InfoNode *current) {
 }
 
 void GetGender(InfoNode *current) {
-
+  bool go_on = true;
+  char temp;
+  while (go_on) {
+    printf("Student's Gender ('M' for male and 'F' for female): ");
+    scanf("%c%*c", &temp);
+    switch (temp) {
+      case 'M':
+      {
+        current->gender = true;
+        go_on = false;
+        break;
+      }
+      case 'F':
+      {
+        current->gender = false;
+        go_on = false;
+        break;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+  }
 }
 
 
