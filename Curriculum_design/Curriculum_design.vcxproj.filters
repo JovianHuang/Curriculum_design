@@ -33,6 +33,9 @@
     <ClCompile Include="OutputFunctions.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="FileOperation.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="predefine.h">
@@ -54,6 +57,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="OutputFunctions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FileOperation.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

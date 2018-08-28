@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Curriculum_design.c" />
+    <ClCompile Include="FileOperation.c" />
     <ClCompile Include="InputFunctions.c" />
     <ClCompile Include="LinkedListOperate.c" />
     <ClCompile Include="OutputFunctions.c" />
@@ -143,6 +144,7 @@
     <ClCompile Include="UserFunctions.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileOperation.h" />
     <ClInclude Include="InputFunctions.h" />
     <ClInclude Include="LinkedListOperate.h" />
     <ClInclude Include="OutputFunctions.h" />

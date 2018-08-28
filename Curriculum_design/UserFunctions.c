@@ -1,6 +1,7 @@
 ﻿#include "standard.h"
 #include "predefine.h"
 #include "UserFunctions.h"
+#include "ProcessFunctions.h"
 
 void DisplayWelcome(void) {
   puts("Welcome to the student achievement management system£¡");
