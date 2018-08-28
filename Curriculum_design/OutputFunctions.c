@@ -22,4 +22,7 @@ void PrintGender(InfoNode *current) {
   }
 }
 
-
+void PrintDate(InfoNode *current) {
+  printf("Student's Birthdate: %4d-%02d-%02d\n", current->birthdate.year,
+    current->birthdate.month, current->birthdate.day);
+}

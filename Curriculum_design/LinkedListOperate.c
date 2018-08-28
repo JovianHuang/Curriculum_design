@@ -36,8 +36,8 @@ InfoNode * NewNode(InfoNode *head) {
   current->next = NULL;
   //GetId(head, current);
   //GetName(current);
-  GetGender(current);
-
+  //GetGenDer(current);
+  GetDate(current);
 
   
   return current;

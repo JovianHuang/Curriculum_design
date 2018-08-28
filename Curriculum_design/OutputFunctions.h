@@ -7,5 +7,7 @@ void PrintName(InfoNode * current);
 
 void PrintGender(InfoNode * current);
 
+void PrintDate(InfoNode * current);
+
 
 #endif // !OUTPUTFUNCTIONS_H

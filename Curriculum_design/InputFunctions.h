@@ -7,4 +7,6 @@ void GetName(InfoNode * current);
 
 void GetGender(InfoNode * current);
 
+void GetDate(InfoNode * current);
+
 #endif // !INPUTFUNCTIONS_H
