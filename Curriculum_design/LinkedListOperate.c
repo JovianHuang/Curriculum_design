@@ -83,13 +83,16 @@ InfoNode * CreateList(InfoNode * head) {
       bool save = YesOrNo();
       if (save) {
         InsertNode(head, current);
-        puts("This data has been saved to the list?");
+        puts("This data has been saved to the list.");
       } else {
-
+        puts("This data has not been saved to the list.");
+        num_info--;
       }
+      puts("Are you gonna enter next student's information?");
+      go_on = YesOrNo();
     }
-    
   }
+  puts("Information entry has ended.");
   return head;
 }
 

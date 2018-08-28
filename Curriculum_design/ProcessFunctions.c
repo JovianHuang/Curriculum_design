@@ -80,4 +80,8 @@ void CalculateAverage(InfoNode *current) {
   current->grade[Average] = sum_temp / (MAXNUM_SCORE - 1);
 }
 
-
+void AddInfo(InfoNode *head) {
+  bool go_on = true;
+  char choice;
+  while ()
+}
