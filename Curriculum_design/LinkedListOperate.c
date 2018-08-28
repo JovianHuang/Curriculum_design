@@ -38,7 +38,7 @@ InfoNode * NewNode(InfoNode *head) {
   //GetName(current);
   //GetGenDer(current);
   GetDate(current);
-
+  GetGrade(current, All);
   
   return current;
 }

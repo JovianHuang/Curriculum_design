@@ -9,4 +9,6 @@ void GetGender(InfoNode * current);
 
 void GetDate(InfoNode * current);
 
+void GetGrade(InfoNode * current, SubjectsEnum subject);
+
 #endif // !INPUTFUNCTIONS_H

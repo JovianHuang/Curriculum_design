@@ -21,7 +21,8 @@ int main(void)
   InfoNode *head, *current;
   head = HeadNode();
   current = NewNode(head);
-  PrintDate(current);
+  PrintGrade(current);
+  PrintAverage(current);
   FreeMemory(head);
 
   // test module

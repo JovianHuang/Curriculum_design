@@ -49,12 +49,46 @@ void GetGender(InfoNode *current) {
 }
 
 void GetDate(InfoNode *current) {
-  puts("Date of birth (Please enter in this format: yyyy-mm-dd,");
-  puts("and the year of birth should be between 1985-2005.");
-  puts("The sign '-' between th two numbers is a must.");
-  scanf("%d%*c", &current->birthdate.year);
-  scanf("%d%*c", &current->birthdate.month);
-  scanf("%d%*c", &current->birthdate.day);
+  do {
+    puts("Date of birth (Please enter in this format: yyyy-mm-dd,");
+    puts("and the year of birth should be between 1985-2005.");
+    puts("The sign '-' between th two numbers is a must.");
+    scanf("%d%*c", &current->birthdate.year);
+    scanf("%d%*c", &current->birthdate.month);
+    scanf("%d%*c", &current->birthdate.day);
+  } while (!DateCorrectnessJudement(current));
 }
 
-
+void GetGrade(InfoNode *current, SubjectsEnum subject) {
+  puts("Please enter the grade:");
+  switch (subject) {
+    case Math:
+    {
+      printf("Math grade: ");
+      scanf("%lf%*c", &current->grade[Math]);
+      break;
+    }
+    case Chinese:
+    {
+      printf("Chinese grade: ");
+      scanf("%lf%*c", &current->grade[Chinese]);
+      break;
+    }
+    case English:
+    {
+      printf("English grade: ");
+      scanf("%lf%*c", &current->grade[English]);
+      break;
+    }
+    case All:
+    {
+      printf("Math grade: ");
+      scanf("%lf%*c", &current->grade[Math]);
+      printf("Chinese grade: ");
+      scanf("%lf%*c", &current->grade[Chinese]);
+      printf("English grade: ");
+      scanf("%lf%*c", &current->grade[English]);
+    }
+  }
+  CalculateAverage(current);
+}

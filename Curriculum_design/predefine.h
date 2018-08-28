@@ -33,16 +33,17 @@ typedef enum subjectsenum {
   Math,
   Chinese,
   English,
-  Average
+  Average,
+  All
 } SubjectsEnum;
 typedef enum datumenum {
-  Id = 4,
+  Id = 5,
   Name,
   Gender,
   Age,
 } DatumEnum;
 typedef enum sortwayenum {
-  A = 9,
+  A = 10,
   D
 } SortWayEnum;
 
