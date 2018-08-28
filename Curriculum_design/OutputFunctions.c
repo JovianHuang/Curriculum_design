@@ -2,9 +2,15 @@
 #include "predefine.h"
 #include "OutputFunctions.h"
 
-//void PrintInfo(InfoNode *current) {
-
-//}
+void PrintInfo(InfoNode *current) {
+  PrintId(current);
+  PrintName(current);
+  PrintGender(current);
+  PrintDate(current);
+  PrintGrade(current);
+  PrintAverage(current);
+  printf("\n");
+}
 
 void PrintId(InfoNode *current) {
   printf("Student's ID: %-10lld\n", current->id);

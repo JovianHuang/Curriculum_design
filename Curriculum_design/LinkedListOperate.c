@@ -34,9 +34,9 @@ InfoNode * HeadNode(void) {
 InfoNode * NewNode(InfoNode *head) {
   InfoNode *current = (InfoNode *)malloc(sizeof(InfoNode));
   current->next = NULL;
-  //GetId(head, current);
-  //GetName(current);
-  //GetGenDer(current);
+  GetId(head, current);
+  GetName(current);
+  GetGenDer(current);
   GetDate(current);
   GetGrade(current, All);
   

@@ -5,8 +5,13 @@ void DisplayWelcome(void);
 
 void DisplayFirstLevelMenu(void);
 
-void LogIn(void);
+void DisplayTheSearchMenu(void);
+
+bool YesOrNo(void);
+
+void EnsureDeleteInfo(InfoNode * head);
 
 
 
 #endif // !USERFUNCTIONS_H
+
