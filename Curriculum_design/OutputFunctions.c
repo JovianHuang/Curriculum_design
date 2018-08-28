@@ -2,6 +2,19 @@
 #include "predefine.h"
 #include "OutputFunctions.h"
 
+void PrintList(const InfoNode *head) {
+  if (!head->next) {
+    puts("NULL");
+  } else {
+    InfoNode *current = head->next;
+    while (current) {
+      PrintInfo(current);
+      current = current->next;
+    }
+  }
+  printf("\n");
+}
+
 void PrintInfo(InfoNode *current) {
   PrintId(current);
   PrintName(current);

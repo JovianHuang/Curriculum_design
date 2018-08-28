@@ -14,7 +14,9 @@ int FileCheck(InfoNode *head) {
     }
   } else {
     puts("Local database file already exists.");
-    // TODO
+    if (!FileToLinkedList(fo, head)) {
+      status = 2;
+    }
   }
   fclose(fp);
   return status;

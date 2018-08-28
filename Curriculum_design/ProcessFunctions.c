@@ -51,7 +51,6 @@ bool DateCorrectnessJudement(const InfoNode *current) {
   return correct;
 }
 
-
 DateType DayConfirm(DateType year, DateType month) {
   DateType correct_day = 0;
   DateType arrDays_inLeap[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -80,3 +79,5 @@ void CalculateAverage(InfoNode *current) {
   }
   current->grade[Average] = sum_temp / (MAXNUM_SCORE - 1);
 }
+
+

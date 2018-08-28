@@ -4,11 +4,15 @@
 
 void FreeMemory(InfoNode *head);
 
-InfoNode * HeadNode(void);
+InfoNode * CreateHeadNode(void);
 
-InfoNode * NewNode(InfoNode *head);
+InfoNode * CreateNode(InfoNode *head);
 
-InfoNode * NewNode(InfoNode *head);
+void InsertNode(InfoNode * head, InfoNode * current);
+
+InfoNode * CopyNode(const InfoNode * source);
+
+InfoNode * CreateNode(InfoNode *head);
 
 
 

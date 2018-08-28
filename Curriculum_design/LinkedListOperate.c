@@ -2,6 +2,7 @@
 #include "predefine.h"
 #include "LinkedListOperate.h"
 #include "InputFunctions.h"
+#include "UserFunctions.h"
 
 void FreeMemory(InfoNode *head) {
   InfoNode *prev = head, *current = head->next;
@@ -14,8 +15,7 @@ void FreeMemory(InfoNode *head) {
   }
 }
 
-
-InfoNode * HeadNode(void) {
+InfoNode * CreateHeadNode(void) {
   InfoNode *head;
   head = (InfoNode *)malloc(sizeof(InfoNode));
   if (!head) {
@@ -31,7 +31,7 @@ InfoNode * HeadNode(void) {
   return head;
 }
 
-InfoNode * NewNode(InfoNode *head) {
+InfoNode * CreateNode(InfoNode *head) {
   InfoNode *current = (InfoNode *)malloc(sizeof(InfoNode));
   current->next = NULL;
   GetId(head, current);
@@ -39,6 +39,84 @@ InfoNode * NewNode(InfoNode *head) {
   GetGenDer(current);
   GetDate(current);
   GetGrade(current, All);
-  
   return current;
+}
+
+void InsertNode(InfoNode *head, InfoNode *current) {
+  InfoNode *prev = head, *checked = head->next;
+  if (!checked) { // To insert the first node
+    prev->next = current;
+    current->next = checked;
+  } else {
+    while (current && checked) { 
+      /* To insert the remaining nodes 
+      and sort by ascending student's ID */
+      if (checked->id < current->id) {
+        prev->next = current;
+        current->next = checked;
+        break;
+      } else {
+        if (!checked->next) {
+          checked->next = current;
+          current = current->next;
+        } else {
+          checked = checked->next;
+          prev = prev->next;
+        }
+      }
+    }
+  }
+}
+
+InfoNode * CreateList(InfoNode * head) {
+  bool go_on = true;
+  InfoNode *current;
+  while (go_on) {
+    int index = num_info;
+    if (index > 30) {
+      go_on = false;
+      puts("The entry limit has been reached and the entry is terminated.");
+    } else {
+      current = CreateNode(head);
+      num_info++;
+      puts("Whether to save this data to the list?");
+      bool save = YesOrNo();
+      if (save) {
+        InsertNode(head, current);
+        puts("This data has been saved to the list?");
+      } else {
+
+      }
+    }
+    
+  }
+  return head;
+}
+
+InfoNode * CopyNode(const InfoNode *source) {
+  InfoNode *destination = (InfoNode *)malloc(sizeof(InfoNode));
+  destination->id = source->id;
+  strcpy(destination->name, source->name);
+  destination->gender = source->gender;
+  destination->birthdate.year= source->birthdate.year;
+  destination->birthdate.month= source->birthdate.month;
+  destination->birthdate.day= source->birthdate.day;
+  destination->grade[Math] = source->grade[Math];
+  destination->grade[Chinese] = source->grade[Chinese];
+  destination->grade[English] = source->grade[English];
+  destination->grade[Average] = source->grade[Average];
+}
+
+InfoNode * CopyList(const InfoNode *source) {
+  InfoNode *prev = source, *current = source->next;
+  InfoNode *new_head = CreateHeadNode();
+  InfoNode *new_prev = new_head;
+  while (current) {
+    InfoNode *new_current = CopyNode(current);
+    new_prev->next = new_current;
+    new_prev = new_current;
+    prev = current;
+    current = current->next;
+  }
+  return new_head;
 }
