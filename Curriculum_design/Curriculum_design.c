@@ -4,7 +4,7 @@
 * @StudentID:	416125000301
 * @Unit:		Class II, CS, School of IE, Hebei GEO University
 * @Description:student achievement management system. (Linked List Version)
-* @Version:		0.1.0.180827_alpha
+* @Version:		1.0.50.180831_alpha
 * =========================================================================== *
 */
 #include "standard.h"
@@ -15,6 +15,7 @@
 #include "OutputFunctions.h"
 #include "ProcessFunctions.h"
 #include "FileOperation.h"
+#include "ProcessFunctions.h"
 
 int main(void)
 {
@@ -30,27 +31,27 @@ int main(void)
     switch (choice) {
       case 'A':
       {
-        // AddInfo();
+        head = AddInfo(head);
         break;
       }
       case 'D':
       {
-        //EnsureDeleteInfo(StuInfo);
+        //head = EnsureDeleteInfo(StuInfo);
         break;
       }
       case 'S':
       {
-        //SearchAndOutputInfo(StuInfo);
+        //head = SearchAndOutputInfo(StuInfo);
         break;
       }
       case 'M':
       {
-        //EnsureModifyInfo(StuInfo);
+        //head = EnsureModifyInfo(StuInfo);
         break;
       }
       case 'P':
       {
-        //PrintAllInfo(StuInfo, Id, A);
+        head = PrintList(head, Id, A);
         break;
       }
       case 'E':

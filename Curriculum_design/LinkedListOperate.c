@@ -36,7 +36,7 @@ InfoNode * CreateNode(InfoNode *head) {
   current->next = NULL;
   GetId(head, current);
   GetName(current);
-  GetGenDer(current);
+  GetGender(current);
   GetDate(current);
   GetGrade(current, All);
   return current;
@@ -71,8 +71,9 @@ void InsertNode(InfoNode *head, InfoNode *current) {
 InfoNode * CreateList(InfoNode * head) {
   bool go_on = true;
   InfoNode *current;
+  int index;
   while (go_on) {
-    int index = num_info;
+    index = num_info;
     if (index > 30) {
       go_on = false;
       puts("The entry limit has been reached and the entry is terminated.");
@@ -108,6 +109,7 @@ InfoNode * CopyNode(const InfoNode *source) {
   destination->grade[Chinese] = source->grade[Chinese];
   destination->grade[English] = source->grade[English];
   destination->grade[Average] = source->grade[Average];
+  return destination;
 }
 
 InfoNode * CopyList(const InfoNode *source) {

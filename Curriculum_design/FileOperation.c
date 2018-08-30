@@ -14,7 +14,7 @@ int FileCheck(InfoNode *head) {
     }
   } else {
     puts("Local database file already exists.");
-    if (!FileToLinkedList(fo, head)) {
+    if (!FileToLinkedList(fp, head)) {
       status = 2;
     }
   }
@@ -51,7 +51,6 @@ int FileToLinkedList(FILE *fp, InfoNode *head) {
 void SaveToFile(InfoNode *head) {
   FILE *fp;
   fp = fopen("datebase.dat", "wb");
-  int i;
   int size_info = sizeof(InfoNode);
   InfoNode *current = head->next;
   while (current) {

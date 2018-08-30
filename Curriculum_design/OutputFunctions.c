@@ -1,18 +1,35 @@
 #include "standard.h"
 #include "predefine.h"
 #include "OutputFunctions.h"
+#include "FileOperation.h"
+#include "ProcessFunctions.h"
 
-void PrintList(const InfoNode *head) {
-  if (!head->next) {
-    puts("NULL");
-  } else {
-    InfoNode *current = head->next;
-    while (current) {
-      PrintInfo(current);
-      current = current->next;
+InfoNode * PrintList(const InfoNode *head, DatumEnum datum, SortWayEnum sortway) {
+  if (FileCheck(head) != 2) {
+    switch (sortway) {
+      case A:
+      {
+       head = BubbleSort(head, datum, Asc);
+        break;
+      }
+      case D:
+      {
+        head = BubbleSort(head, datum, Desc);
+        break;
+      }
     }
+    if (!head->next) {
+      puts("NULL");
+    } else {
+      InfoNode *current = head->next;
+      while (current) {
+        PrintInfo(current);
+        current = current->next;
+      }
+    }
+    printf("\n");
   }
-  printf("\n");
+  return head;
 }
 
 void PrintInfo(InfoNode *current) {
