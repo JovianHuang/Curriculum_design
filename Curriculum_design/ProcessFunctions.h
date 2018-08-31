@@ -1,7 +1,7 @@
 #ifndef PROCESSFUNCTIONS_H
 #define PROCESSFUNCTIONS_H
 
-int FindId(InfoNode *head, long long temp);
+InfoNode * FindId(InfoNode *head, long long temp);
 
 bool IdCorrectnessJudgment(InfoNode *head, long long temp);
 
@@ -28,5 +28,23 @@ bool Asc(InfoNode * a, InfoNode * b, DatumEnum datum);
 bool AgeCompare(Date * a, Date * b);
 
 bool Desc(InfoNode * a, InfoNode * b, DatumEnum datum);
+
+InfoNode * DeleteInfo(InfoNode * head);
+
+InfoNode * ModifyInfo(InfoNode * head);
+
+InfoNode * Modify(InfoNode * head, InfoNode * target);
+
+InfoNode * SearchAndOutputInfo(InfoNode * head);
+
+InfoNode * OrderByGrade(InfoNode * head);
+
+InfoNode * SearchName(InfoNode * head);
+
+InfoNode * SearchHighest(InfoNode * head);
+
+InfoNode * SearchInGradeInterval(InfoNode * head);
+
+InfoNode * InGradeInterval(InfoNode * head, DatumEnum datum);
 
 #endif // !PROCESSFUNCTIONS_H

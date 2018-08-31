@@ -4,7 +4,7 @@
 #include "FileOperation.h"
 #include "ProcessFunctions.h"
 
-InfoNode * PrintList(const InfoNode *head, DatumEnum datum, SortWayEnum sortway) {
+InfoNode * PrintList(InfoNode *head, DatumEnum datum, SortWayEnum sortway) {
   if (FileCheck(head) != 2) {
     switch (sortway) {
       case A:

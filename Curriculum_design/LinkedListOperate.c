@@ -112,7 +112,7 @@ InfoNode * CopyNode(const InfoNode *source) {
   return destination;
 }
 
-InfoNode * CopyList(const InfoNode *source) {
+InfoNode * CopyList(InfoNode *source) {
   InfoNode *prev = source, *current = source->next;
   InfoNode *new_head = CreateHeadNode();
   InfoNode *new_prev = new_head;

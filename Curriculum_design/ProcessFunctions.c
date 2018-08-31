@@ -5,20 +5,17 @@
 #include "ProcessFunctions.h"
 #include "FileOperation.h"
 #include "LinkedListOperate.h"
+#include "UserFunctions.h"
 
-int FindId(InfoNode *head, long long temp) {
-  int found = -1, i = 0;
+InfoNode * FindId(InfoNode *head, long long temp) {
   InfoNode *current = head->next;
+  InfoNode *found = NULL;
   while (current) {
-    ++i;
     if (current->id == temp) {
-      found = i;
+      found = current;
       break;
     }
     current = current->next;
-  }
-  if (!i) {
-    found = i;
   }
   return found;
 }
@@ -29,7 +26,7 @@ bool IdCorrectnessJudgment(InfoNode *head, long long temp) {
     correct = false;
     puts("ID should be a positive integer, please re-enter.");
   }
-  if (FindId(head, temp) < 0) {
+  if (!FindId(head, temp)) {
     correct = false;
     puts("This ID already exists, please re-enter.");
   }
@@ -249,3 +246,486 @@ bool Desc(InfoNode *a, InfoNode *b, DatumEnum datum) {
   bool isSmaller = !Asc(a, b, datum);
   return isSmaller;
 }
+
+InfoNode * DeleteInfo(InfoNode *head) {
+  bool go_on = true;
+  bool sure = false;
+  puts("Please enter the id of the student you want to delete.");
+  IdType target_id;
+  InfoNode *target = NULL, *target_pre = head;
+  while (go_on) {
+    scanf("%lld%*c", &target_id);
+    target = FindId(head, target_id);
+    if (target) {
+      PrintInfo(target);
+      puts("Please confirm whether to delete this student infomation.");
+      sure = YesOrNo();
+      if (sure) {
+        while (target_pre->next != target) {
+          target_pre = target_pre->next;
+        }
+        target_pre->next = target->next;
+        free(target);
+        num_info--;
+        puts("The following is all existing data.");
+        PrintList(head, Id, A);
+        go_on = false;
+      } else {
+        puts("Please confirm whether to continue the delete operation.");
+        sure = YesOrNo();
+        if (sure) {
+          puts("Please enter the id of the student you want to delete.");
+        } else {
+          go_on = false;
+        }
+      }
+    } else {
+      puts("This id does not exist. Please confirm and then enter.");
+      puts("Please confirm whether to continue the delete operation.");
+      sure = YesOrNo();
+      if (sure) {
+        puts("Please enter the id of the student you want to delete.");
+      } else {
+        go_on = false;
+      }
+    }
+  }
+  return head;
+}
+
+InfoNode * ModifyInfo(InfoNode *head) {
+  bool go_on = true, sure = false;
+  puts("Please enter the id of the student you want to modify.");
+  IdType target_id;
+  InfoNode *target = NULL;
+  while (go_on) {
+    scanf("%lld%*c", &target_id);
+    target = FindId(head, target_id);
+    if (target) {
+      PrintInfo(target);
+      puts("Please confirm whether to modify this student infomation.");
+      sure = YesOrNo();
+      if (sure) {
+        head = Modify(head, target);
+        puts("The following is all existing data.");
+        PrintList(head, Id, A);
+        go_on = false;
+      } else {
+        puts("Please confirm whether to continue the modify operation.");
+        sure = YesOrNo();
+        if (sure) {
+          puts("Please enter the id of the student you want to modify.");
+        } else {
+          go_on = false;
+        }
+      }
+    } else {
+      puts("This id does not exist. Please confirm and then enter.");
+      puts("Please confirm whether to continue the modify operation.");
+      sure = YesOrNo();
+      if (sure) {
+        puts("Please enter the id of the student you want to modify.");
+      } else {
+        go_on = false;
+      }
+    }
+  }
+  return head;
+}
+
+InfoNode * Modify(InfoNode *head, InfoNode *target) {
+  bool go_on = true;
+  bool sure = false;
+  char choice;
+  while (go_on) {
+    puts("Please choose which one to modify:");
+    puts("I) Id\nN) Name\nG) Gender");
+    puts("A) Age\nM) Math garde\nC) Chinese grade");
+    puts("E) English grade\nB) Back to previous");
+    scanf("%c%*c", &choice);
+    switch (choice) {
+      case 'I':
+      {
+        GetId(head, target);
+        break;
+      }
+      case 'N':
+      {
+        GetName(target);
+        break;
+      }
+      case 'G':
+      {
+        GetGender(target);
+        break;
+      }
+      case 'A':
+      {
+        GetDate(target);
+        break;
+      }
+      case 'M':
+      {
+        GetGrade(target, Math);
+        break;
+      }
+      case 'C':
+      {
+        GetGrade(target, Chinese);
+        break;
+      }
+      case 'E':
+      {
+        GetGrade(target, English);
+        break;
+      }
+      case 'B':
+      {
+        go_on = false;
+        break;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+    puts("This is the modified data:");
+    PrintInfo(head);
+    puts("Please confirm whether to continue to modify this student's information.");
+    sure = YesOrNo();
+    if (!sure) {
+      go_on = false;
+    }
+  }
+  return head;
+}
+
+InfoNode * SearchAndOutputInfo(InfoNode *head) {
+  bool go_on = true;
+  char choice;
+  while (go_on) {
+    DisplayTheSearchMenu();
+    scanf("%c%*c", &choice);
+    switch (choice) {
+      case 'a':
+      {
+        PrintList(head, Average, D);
+        break;
+      }
+      case 'b':
+      {
+        head = OrderByGrade(head);
+        break;
+      }
+      case 'c':
+      {
+        PrintList(head, Name, A);
+        break;
+      }
+      case 'd':
+      {
+        PrintList(head, Id, A);
+        break;
+      }
+      /*case 'e':
+      {
+        BubbleSort(StuInfo, Gender, Asc);
+        int bound = 0;
+        int i, j, k;
+        Info temp_female[MAXNUM_STUDENTS];
+        Info temp_male[MAXNUM_STUDENTS];
+        for (i = 0, j = 0, k = 0; i < num_info; i++) {
+          if (!StuInfo[i].gender) {
+            CopyAnInfoArr(temp_female, StuInfo, j, i);
+            j++;
+          } else {
+            CopyAnInfoArr(temp_male, StuInfo, k, i);
+            k++;
+          }
+        }
+        bound = j;
+        for (i = 0; i < bound; i++) {
+          for (j = 0; j < bound - 1; j++) {
+            if (Asc(&temp_female[i], &temp_female[j], Age)) {
+              Swap(&temp_female[i], &temp_female[j]);
+            }
+          }
+        }
+        for (i = 0; i < k; i++) {
+          for (j = 0; j < k - 1; j++) {
+            if (Asc(&temp_male[i], &temp_male[j], Age)) {
+              Swap(&temp_male[i], &temp_male[j]);
+            }
+          }
+        }
+        for (i = 0; i < bound; i++) {
+          PrintInfo(temp_female, i);
+        }
+        for (i = 0; i < k; i++) {
+          PrintInfo(temp_male, i);
+        }
+        break;
+      }*/
+      case 'f':
+      {
+        InfoNode *target = SearchName(head);
+        if (target) {
+          puts("This is the information of the student you are looking for.");
+          PrintInfo(target);
+        }
+        break;
+      }
+      case 'g':
+      {
+        head = SearchHighest(head);
+        break;
+      }
+      case 'h':
+      {
+        head = SearchInGradeInterval(head);
+        break;
+      }
+      case 'B':
+      {
+        go_on = false;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+  }
+  return head;
+}
+
+InfoNode * OrderByGrade(InfoNode *head) {
+  bool go_on = true;
+  char choice;
+  while (go_on) {
+    puts("Please choose which subject to sort by:");
+    puts("M) Math");
+    puts("C) Chinese");
+    puts("E) English");
+    puts("B) Back to previous");
+    scanf("%c%*c", &choice);
+    switch (choice) {
+      case 'M':
+      {
+        PrintList(head, Math, D);
+        break;
+      }
+      case 'C':
+      {
+        PrintList(head, Chinese, D);
+        break;
+      }
+      case 'E':
+      {
+        PrintList(head, English, D);
+        break;
+      }
+      case 'B':
+      {
+        go_on = false;
+        break;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+  }
+  return head;
+}
+
+InfoNode *SearchName(InfoNode *head) {
+  InfoNode *target = NULL, *current = head->next;
+  char name_target[MAXLEN_NAME];
+  bool go_on = true;
+  bool sure = false;
+  while (go_on) {
+    puts("Please enter the name of the student you are looking for.");
+    printf("Name: ");
+    fgets(name_target, MAXLEN_NAME, stdin);
+    int len = strlen(name_target);
+    name_target[len - 1] = '\0';
+    
+    while (current) {
+      if (!strcmp(name_target, current->name)) {
+        target = current;
+        break;
+      } else {
+        current = current->next;
+      }
+    }
+    if (!target) {
+      puts("Sorry, the student you are queried does not exist in the database.");
+      puts("Please confirm and re-enter.");
+      puts("Please confirm whether to proceed with this operation.");
+      sure = YesOrNo();
+      if (!sure) {
+        go_on = false;
+      }
+    } else {
+      go_on = false;
+    }
+  }
+  return target;
+}
+
+InfoNode *SearchHighest(InfoNode *head) {
+  DatumEnum datum = Average;
+  bool go_on = true;
+  char choice;
+  InfoNode *current = head->next;
+  InfoNode *target[MAXNUM_STUDENTS] = {NULL};
+  while (go_on) {
+    puts("Please select a query subject:");
+    puts("M) Math");
+    puts("C) Chinese");
+    puts("E) English");
+    puts("B) Back to previous");
+    scanf("%c%*c", &choice);
+    switch (choice) {
+      case 'M':
+      {
+        datum = Math;
+        break;
+      }
+      case 'C':
+      {
+        datum = Chinese;
+        break;
+      }
+      case 'E':
+      {
+        datum = English;
+        break;
+      }
+      case 'B':
+      {
+        go_on = false;
+        break;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+    if (choice == 'M' || choice == 'C' || choice == 'E') {
+      head = BubbleSort(head, datum, Desc);
+      current = head->next;
+      GradeType highest = current->grade[datum];
+      int i = 0;
+      target[i] = current;
+      while (current) {
+        if (current->grade[datum] != highest) {
+          break;
+        } else {
+          target[++i] = current;;
+          current = current->next;
+        }
+      }
+      for (i = 0; i < num_info; i++) {
+        if (target[i] && !i) {
+          puts("The following is the highest score winner's information:");
+          if (target[i]) {
+            PrintInfo(target[i]);
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  return head;
+}
+
+InfoNode *SearchInGradeInterval(InfoNode *head) {
+  bool go_on = true;
+  bool sure = false;
+  char choice;
+  DatumEnum datum = Average;
+  while (go_on) {
+    puts("Please select a query subject:");
+    puts("M) Math");
+    puts("C) Chinese");
+    puts("E) English");
+    puts("B) Back to previous");
+    scanf("%c%*c", &choice);
+    switch (choice) {
+      case 'M':
+      {
+        datum = Math;
+        break;
+      }
+      case 'C':
+      {
+        datum = Chinese;
+        break;
+      }
+      case 'E':
+      {
+        datum = English;
+        break;
+      }
+      case 'B':
+      {
+        go_on = false;
+        break;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+    head = InGradeInterval(head, datum);
+    puts("Please confirm whether to continue this operation");
+    sure = YesOrNo();
+    if (!sure) {
+      go_on = false;
+    }
+  }
+  return head;
+}
+
+InfoNode *InGradeInterval(InfoNode *head, DatumEnum datum) {
+  int interval[2];
+  InfoNode *current = head->next;
+  bool found = false;
+  puts("Please enter a score interval in a format similar to 30-80:");
+  puts("The '-' between the two numbers is a must.");
+  puts("The number behind must be larger than the previous one.");
+  scanf("%d%*c%d%*c", &interval[0], &interval[1]);
+  head = BubbleSort(head, datum, Desc);
+  int counter = 0;
+  while (current) {
+    if (current->grade[datum] <= interval[1]) {
+      if (current->grade[datum] >= interval[0]) {
+        if (!current) {
+          puts("The following are eligible data:");
+          counter++;
+        }
+        PrintInfo(current);
+        found = true;
+      }
+    }
+    current = current->next;
+  }
+  if (!found) {
+    puts("The score of this subject without any student is in this interval");
+  } else {
+    if (counter == 1) {
+      printf("A total of %d student is eligible.", counter);
+    } else {
+      printf("A total of %d students are eligible.", counter);
+    }
+  }
+  return head;
+}
+

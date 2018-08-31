@@ -4,7 +4,7 @@
 * @StudentID:	416125000301
 * @Unit:		Class II, CS, School of IE, Hebei GEO University
 * @Description:student achievement management system. (Linked List Version)
-* @Version:		1.0.50.180831_alpha
+* @Version:		1.8.11.180831_alpha
 * =========================================================================== *
 */
 #include "standard.h"
@@ -20,7 +20,7 @@
 int main(void)
 {
   DisplayWelcome();
-  InfoNode *head, *current;
+  InfoNode *head;
   head = CreateHeadNode();
   FileCheck(head);
   bool go_on = true;
@@ -36,17 +36,17 @@ int main(void)
       }
       case 'D':
       {
-        //head = EnsureDeleteInfo(StuInfo);
+        head = EnsureDeleteInfo(head);
         break;
       }
       case 'S':
       {
-        //head = SearchAndOutputInfo(StuInfo);
+        head = SearchAndOutputInfo(head);
         break;
       }
       case 'M':
       {
-        //head = EnsureModifyInfo(StuInfo);
+        head = EnsureModifyInfo(head);
         break;
       }
       case 'P':
@@ -65,12 +65,7 @@ int main(void)
       }
     }
   }
-
-
-
-
-
+  SaveToFile(head);
   FreeMemory(head);
-
   return 0;
 }

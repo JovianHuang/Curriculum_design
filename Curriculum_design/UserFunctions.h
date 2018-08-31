@@ -9,9 +9,9 @@ void DisplayTheSearchMenu(void);
 
 bool YesOrNo(void);
 
-void EnsureDeleteInfo(InfoNode * head);
+InfoNode * EnsureDeleteInfo(InfoNode * head);
 
-
+InfoNode * EnsureModifyInfo(InfoNode * head);
 
 #endif // !USERFUNCTIONS_H
 

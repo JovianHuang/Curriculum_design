@@ -2,9 +2,10 @@
 #include "predefine.h"
 #include "UserFunctions.h"
 #include "ProcessFunctions.h"
+#include "OutputFunctions.h"
 
 void DisplayWelcome(void) {
-  puts("Welcome to the student achievement management system£¡");
+  puts("Welcome to the student achievement management systems.");
 }
 
 void DisplayFirstLevelMenu(void) {
@@ -45,7 +46,7 @@ bool YesOrNo(void) {
   return yes;
 }
 
-void EnsureDeleteInfo(InfoNode *head) {
+InfoNode * EnsureDeleteInfo(InfoNode *head) {
   bool go_on = true;
   char choice;
   while (go_on) {
@@ -56,7 +57,7 @@ void EnsureDeleteInfo(InfoNode *head) {
     switch (choice) {
       case 'D':
       {
-        // TODO
+        head = DeleteInfo(head);
         break;
       }
       case 'B':
@@ -71,9 +72,10 @@ void EnsureDeleteInfo(InfoNode *head) {
         break;
     }
   }
+  return head;
 }
 
-void EnsureModifyInfo(InfoNode *head) {
+InfoNode * EnsureModifyInfo(InfoNode *head) {
   bool go_on = true;
   char choice;
   while (go_on) {
@@ -84,7 +86,7 @@ void EnsureModifyInfo(InfoNode *head) {
     switch (choice) {
       case 'M':
       {
-        // TODO
+        head = ModifyInfo(head);
         break;
       }
       case 'B':
@@ -98,4 +100,5 @@ void EnsureModifyInfo(InfoNode *head) {
       }
     }
   }
+  return head;
 }

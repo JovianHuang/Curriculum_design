@@ -1,7 +1,7 @@
 #ifndef OUTPUTFUNCTIONS_H
 #define OUTPUTFUNCTIONS_H
 
-InfoNode * PrintList(const InfoNode * head, DatumEnum datum, SortWayEnum sortway);
+InfoNode * PrintList(InfoNode * head, DatumEnum datum, SortWayEnum sortway);
 
 void PrintInfo(InfoNode * current);
 

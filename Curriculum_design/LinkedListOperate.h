@@ -13,6 +13,8 @@ InfoNode * CreateList(InfoNode * head);
 
 InfoNode * CopyNode(const InfoNode * source);
 
+InfoNode * CopyList(InfoNode * source);
+
 InfoNode * CreateNode(InfoNode *head);
 
 #endif // !LINKEDLISTOPERATE_H
