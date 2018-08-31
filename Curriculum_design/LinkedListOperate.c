@@ -9,10 +9,11 @@ void FreeMemory(InfoNode *head) {
   while (prev) {
     free(prev);
     prev = current;
+    if (prev) {
+      current = prev->next;
+    }
   }
-  if (prev) {
-    current = prev->next;
-  }
+  
 }
 
 InfoNode * CreateHeadNode(void) {
@@ -71,23 +72,20 @@ void InsertNode(InfoNode *head, InfoNode *current) {
 InfoNode * CreateList(InfoNode * head) {
   bool go_on = true;
   InfoNode *current;
-  int index;
   while (go_on) {
-    index = num_info;
-    if (index > 30) {
+    if (num_info > 30) {
       go_on = false;
       puts("The entry limit has been reached and the entry is terminated.");
     } else {
       current = CreateNode(head);
-      num_info++;
       puts("Whether to save this data to the list?");
       bool save = YesOrNo();
       if (save) {
         InsertNode(head, current);
         puts("This data has been saved to the list.");
+        num_info++;
       } else {
         puts("This data has not been saved to the list.");
-        num_info--;
       }
       puts("Are you gonna enter next student's information?");
       go_on = YesOrNo();

@@ -22,7 +22,7 @@ int main(void)
   DisplayWelcome();
   InfoNode *head;
   head = CreateHeadNode();
-  FileCheck(head);
+  head = FileCheck(head);
   bool go_on = true;
   char choice;
   while (go_on) {
@@ -56,6 +56,8 @@ int main(void)
       }
       case 'E':
       {
+        SaveToFile(head);
+        FreeMemory(head);
         exit(1);
       }
       default:
@@ -65,7 +67,5 @@ int main(void)
       }
     }
   }
-  SaveToFile(head);
-  FreeMemory(head);
   return 0;
 }

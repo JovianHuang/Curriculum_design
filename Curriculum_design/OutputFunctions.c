@@ -5,7 +5,6 @@
 #include "ProcessFunctions.h"
 
 InfoNode * PrintList(InfoNode *head, DatumEnum datum, SortWayEnum sortway) {
-  if (FileCheck(head) != 2) {
     switch (sortway) {
       case A:
       {
@@ -28,7 +27,6 @@ InfoNode * PrintList(InfoNode *head, DatumEnum datum, SortWayEnum sortway) {
       }
     }
     printf("\n");
-  }
   return head;
 }
 

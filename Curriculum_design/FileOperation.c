@@ -2,7 +2,7 @@
 #include "predefine.h"
 #include "FileOperation.h"
 
-int FileCheck(InfoNode *head) {
+InfoNode * FileCheck(InfoNode *head) {
   int status = 1;
   FILE *fp;
   if ((fp = fopen("database.dat", "rb")) == NULL) {
@@ -14,47 +14,49 @@ int FileCheck(InfoNode *head) {
     }
   } else {
     puts("Local database file already exists.");
-    if (!FileToLinkedList(fp, head)) {
-      status = 2;
+    int size_info = sizeof(InfoNode);
+    InfoNode *current = (InfoNode *)malloc(size_info);
+    if (fread(current, size_info, 1, fp)) {
+      fclose(fp);
+      fp = fopen("database.dat", "rb");
+      if (!FileToLinkedList(fp, head)) {
+        status = 2;
+      }
+    } else {
+      puts("No data exists in the local database file.");
+      num_info = 0;
     }
   }
   fclose(fp);
-  return status;
+  return head;
 }
 
-int FileToLinkedList(FILE *fp, InfoNode *head) {
-  int i = 0, status = 1, flag = 1;
-  if (num_info) {
-    flag = 0;
-    status = 0;
-    i = 1;
-  }
+InfoNode * FileToLinkedList(FILE *fp, InfoNode *head) {
   int size_info = sizeof(InfoNode);
-  InfoNode *current = head->next;
-  if (fread(current, size_info, 1, fp)) {
-    i++;
-    current = current->next;
+  InfoNode *current = (InfoNode *)malloc(size_info);
+  InfoNode *pre = NULL;
+  while (fread(current, size_info, 1, fp)) {
+    if (!head->next) {
+      head->next = current;
+    }
+    pre = current;
+    current = (InfoNode *)malloc(size_info);
+    pre->next = current;
   }
-  if (i < 1) {
-    status = 0;
-    puts("No data exists in the local database file.");
-  }
-  if (status) {
-    num_info = i - 1;
-  }
-  if (num_info) {
-    status = 1;
-  }
-  return status;
+  pre->next = NULL;
+  free(current);
+  return head;
 }
 
 void SaveToFile(InfoNode *head) {
   FILE *fp;
-  fp = fopen("datebase.dat", "wb");
+  fp = fopen("database.dat", "wb");
   int size_info = sizeof(InfoNode);
   InfoNode *current = head->next;
   while (current) {
-    fwrite(current, size_info, 1, fp);
+    if (fwrite(current, size_info, 1, fp) != 1) {
+      puts("File write error");
+    }
     current = current->next;
   }
   fclose(fp);

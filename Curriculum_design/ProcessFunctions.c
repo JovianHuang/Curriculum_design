@@ -22,13 +22,16 @@ InfoNode * FindId(InfoNode *head, long long temp) {
 
 bool IdCorrectnessJudgment(InfoNode *head, long long temp) {
   bool correct = true;
-  if (temp <= 0) {
-    correct = false;
-    puts("ID should be a positive integer, please re-enter.");
-  }
-  if (!FindId(head, temp)) {
-    correct = false;
-    puts("This ID already exists, please re-enter.");
+  InfoNode *current = head->next;
+  if (current) {
+    if (temp <= 0) {
+      correct = false;
+      puts("ID should be a positive integer, please re-enter.");
+    }
+    if (FindId(head, temp) != NULL) {
+      correct = false;
+      puts("This ID already exists, please re-enter.");
+    }
   }
   return correct;
 }
@@ -100,7 +103,7 @@ InfoNode * AddInfo(InfoNode *head) {
       }
       case 'I':
       {
-        if (FileCheck(head) == 2) {
+        if (!FileCheck(head)->next) {
           puts("You should save some data in the the local database file first.");
         } else {
           head = InsertNewInfo(head);
@@ -144,7 +147,7 @@ InfoNode * BubbleSort(InfoNode *head, DatumEnum datum, bool(*compare)(InfoNode *
   int count = num_info;
   InfoNode *current;
   current = head->next;
-  while (count - 1) {
+  while (count - 1 && current) {
     while (current->next != NULL) {
       if ((*compare)(current, current->next, datum)) {
         Swap(current, current->next);
@@ -428,45 +431,24 @@ InfoNode * SearchAndOutputInfo(InfoNode *head) {
         PrintList(head, Id, A);
         break;
       }
-      /*case 'e':
+      case 'e':
       {
-        BubbleSort(StuInfo, Gender, Asc);
-        int bound = 0;
-        int i, j, k;
-        Info temp_female[MAXNUM_STUDENTS];
-        Info temp_male[MAXNUM_STUDENTS];
-        for (i = 0, j = 0, k = 0; i < num_info; i++) {
-          if (!StuInfo[i].gender) {
-            CopyAnInfoArr(temp_female, StuInfo, j, i);
-            j++;
-          } else {
-            CopyAnInfoArr(temp_male, StuInfo, k, i);
-            k++;
+        head = BubbleSort(head, Gender, Asc);
+        InfoNode *temp_female = CopyList(head);
+        InfoNode *bound = temp_female->next;
+        InfoNode *temp_male = CreateHeadNode();
+        while (!bound->gender) {
+          if (bound->next->gender) {
+            temp_male->next = bound->next;
+            bound->next = NULL;
+            break;
           }
+          bound = bound->next;
         }
-        bound = j;
-        for (i = 0; i < bound; i++) {
-          for (j = 0; j < bound - 1; j++) {
-            if (Asc(&temp_female[i], &temp_female[j], Age)) {
-              Swap(&temp_female[i], &temp_female[j]);
-            }
-          }
-        }
-        for (i = 0; i < k; i++) {
-          for (j = 0; j < k - 1; j++) {
-            if (Asc(&temp_male[i], &temp_male[j], Age)) {
-              Swap(&temp_male[i], &temp_male[j]);
-            }
-          }
-        }
-        for (i = 0; i < bound; i++) {
-          PrintInfo(temp_female, i);
-        }
-        for (i = 0; i < k; i++) {
-          PrintInfo(temp_male, i);
-        }
+        PrintList(temp_female, Age, A);
+        PrintList(temp_male, Age, A);
         break;
-      }*/
+      }
       case 'f':
       {
         InfoNode *target = SearchName(head);
