@@ -8,7 +8,7 @@ InfoNode * PrintList(InfoNode *head, DatumEnum datum, SortWayEnum sortway) {
     switch (sortway) {
       case A:
       {
-       head = BubbleSort(head, datum, Asc);
+        head = BubbleSort(head, datum, Asc);
         break;
       }
       case D:

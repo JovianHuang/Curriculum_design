@@ -49,9 +49,9 @@ void GetGender(InfoNode *current) {
 
 void GetDate(InfoNode *current) {
   do {
-    puts("Date of birth (Please enter in this format: yyyy-mm-dd,");
+    puts("Date of birth\n(Please enter in this format: yyyy-mm-dd,");
     puts("and the year of birth should be between 1985-2005.");
-    puts("The sign '-' between th two numbers is a must.");
+    puts("The sign '-' between th two numbers is a must.): ");
     scanf("%d%*c", &current->birthdate.year);
     scanf("%d%*c", &current->birthdate.month);
     scanf("%d%*c", &current->birthdate.day);

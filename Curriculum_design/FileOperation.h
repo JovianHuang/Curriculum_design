@@ -3,7 +3,7 @@
 
 InfoNode * FileCheck(InfoNode * head);
 
-InfoNode * FileToLinkedList(FILE * fp, InfoNode * head);
+InfoNode * FileTopointedList(FILE * fp, InfoNode * head);
 
 void SaveToFile(InfoNode * head);
 

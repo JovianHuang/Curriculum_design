@@ -121,5 +121,6 @@ InfoNode * CopyList(InfoNode *source) {
     prev = current;
     current = current->next;
   }
+  new_prev->next = NULL;
   return new_head;
 }

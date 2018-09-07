@@ -87,7 +87,7 @@ InfoNode * AddInfo(InfoNode *head) {
   bool go_on = true;
   char choice;
   while (go_on) {
-    puts("Please choose what to do:");
+    puts("\nPlease choose what to do:");
     puts("F) First fully entry or full re-enter");
     puts("I) Insert new informations");
     puts("B) Back to previous");
@@ -103,12 +103,12 @@ InfoNode * AddInfo(InfoNode *head) {
       }
       case 'I':
       {
-        if (!FileCheck(head)->next) {
+        if (!num_info) {
           puts("You should save some data in the the local database file first.");
         } else {
           head = InsertNewInfo(head);
           puts("The following is all the information you just entered.");
-          PrintList(head, Id, D);
+          PrintList(head, Id, A);
         }
         break;
       }
@@ -127,7 +127,7 @@ InfoNode * AddInfo(InfoNode *head) {
 }
 
 InfoNode * FEntery(InfoNode *head) {
-  puts("The action now is to enter the informations for the first time");
+  puts("\nThe action now is to enter the informations for the first time");
   puts("or comepletely re-enter.");
   puts("Please follow the tips below to enter student information.");
   head = CreateList(head);
@@ -135,98 +135,112 @@ InfoNode * FEntery(InfoNode *head) {
 }
 
 InfoNode * InsertNewInfo(InfoNode *head) {
-  puts("The action now is to enter the informations for the first time");
+  puts("\nThe action now is to enter the informations for the first time");
   puts("or comepletely re-enter.");
   puts("Please follow the tips below to enter student information.");
-  FileCheck(head);
   head = CreateList(head);
   return head;
 }
 
 InfoNode * BubbleSort(InfoNode *head, DatumEnum datum, bool(*compare)(InfoNode *, InfoNode*, DatumEnum)) {
   int count = num_info;
-  InfoNode *current;
-  current = head->next;
-  while (count - 1 && current) {
-    while (current->next != NULL) {
-      if ((*compare)(current, current->next, datum)) {
-        Swap(current, current->next);
+  InfoNode *pMove, *pMove_pre, *pMoveNext;
+  bool isSwitch = false;
+  while (count > 0) {
+    pMove = head->next;
+    pMove_pre = head;
+    pMoveNext = pMove->next;
+    while (pMove && pMoveNext) {
+      if ((*compare)(pMove, pMoveNext, datum)) {
+        Swap(pMove_pre, pMove);
+        isSwitch = true;  // Prevent infinite loops
       }
-      current = head->next;
+      if (isSwitch) {
+        pMove_pre = pMoveNext;
+        pMoveNext = pMove->next;
+        isSwitch = false;
+      } else {
+        pMove_pre = pMove;
+        pMove = pMoveNext;
+        pMoveNext = pMove->next;
+      }
     }
     count--;
-    current = head->next;
   }
   return head;
 }
 
-void Swap(InfoNode *a, InfoNode *b) {
-  InfoNode *temp = a;
-  a = b;
-  b = temp;
+void Swap(InfoNode *pMove_pre, InfoNode *pMove) {
+  // Assume that the two pointers passed in are 1, 2
+  InfoNode *pMoveNext = pMove->next;  // This is 3
+  InfoNode *pMoveNext_sub = pMoveNext->next; // This is 4
+  // Up to now, the order is: 1234
+  pMove_pre->next = pMoveNext;  // 1 pointed to 3, 3 is the next of 1 and 2. 1(2)34
+  pMove->next = pMoveNext_sub;  // 2 pointed to 4, 4 is the next of 2 and 3. 13(2)4
+  pMoveNext->next = pMove;  // 3 pointed to 2, 2 is the next of 3. 1324
 }
 
 bool Asc(InfoNode *a, InfoNode *b, DatumEnum datum) {
-  bool isSmaller = true;
+  bool a_isGreater = false;
   switch (datum) {
     case Id:
     {
       if (a->id > b->id) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case Name:
     {
       if (strcmp(a->name, b->name) > 1) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case Average:
     {
       if (a->grade[Average] > b->grade[Average]) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case Math:
     {
       if (a->grade[Math] > b->grade[Math]) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case Chinese:
     {
       if (a->grade[Chinese] > b->grade[Chinese]) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case English:
     {
       if (a->grade[English] > b->grade[English]) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case Gender:
     {
       if (a->gender && (a->gender ^ b->gender)) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
     case Age:
     {
       if (AgeCompare(&a->birthdate, &b->birthdate)) {
-        isSmaller = false;
+        a_isGreater = true;
       }
       break;
     }
   }
-  return isSmaller;
+  return a_isGreater;
 }
 
 bool AgeCompare(Date *a, Date *b) {
@@ -253,6 +267,7 @@ bool Desc(InfoNode *a, InfoNode *b, DatumEnum datum) {
 InfoNode * DeleteInfo(InfoNode *head) {
   bool go_on = true;
   bool sure = false;
+  PrintList(head, Id, A);
   puts("Please enter the id of the student you want to delete.");
   IdType target_id;
   InfoNode *target = NULL, *target_pre = head;
@@ -394,7 +409,7 @@ InfoNode * Modify(InfoNode *head, InfoNode *target) {
       }
     }
     puts("This is the modified data:");
-    PrintInfo(head);
+    PrintInfo(target);
     puts("Please confirm whether to continue to modify this student's information.");
     sure = YesOrNo();
     if (!sure) {
@@ -468,9 +483,15 @@ InfoNode * SearchAndOutputInfo(InfoNode *head) {
         head = SearchInGradeInterval(head);
         break;
       }
+      case 'i':
+      {
+        Statistics(head);
+        break;
+      }
       case 'B':
       {
         go_on = false;
+        break;
       }
       default:
       {
@@ -523,7 +544,7 @@ InfoNode * OrderByGrade(InfoNode *head) {
   return head;
 }
 
-InfoNode *SearchName(InfoNode *head) {
+InfoNode * SearchName(InfoNode *head) {
   InfoNode *target = NULL, *current = head->next;
   char name_target[MAXLEN_NAME];
   bool go_on = true;
@@ -534,7 +555,6 @@ InfoNode *SearchName(InfoNode *head) {
     fgets(name_target, MAXLEN_NAME, stdin);
     int len = strlen(name_target);
     name_target[len - 1] = '\0';
-    
     while (current) {
       if (!strcmp(name_target, current->name)) {
         target = current;
@@ -558,12 +578,11 @@ InfoNode *SearchName(InfoNode *head) {
   return target;
 }
 
-InfoNode *SearchHighest(InfoNode *head) {
+InfoNode * SearchHighest(InfoNode *head) {
   DatumEnum datum = Average;
   bool go_on = true;
   char choice;
   InfoNode *current = head->next;
-  InfoNode *target[MAXNUM_STUDENTS] = {NULL};
   while (go_on) {
     puts("Please select a query subject:");
     puts("M) Math");
@@ -603,23 +622,21 @@ InfoNode *SearchHighest(InfoNode *head) {
       current = head->next;
       GradeType highest = current->grade[datum];
       int i = 0;
-      target[i] = current;
+      InfoNode *target[MAXNUM_STUDENTS] = {NULL};
       while (current) {
         if (current->grade[datum] != highest) {
           break;
         } else {
-          target[++i] = current;;
+          target[i++] = current;
           current = current->next;
         }
       }
+      puts("The following is the highest score winner's information:");
       for (i = 0; i < num_info; i++) {
-        if (target[i] && !i) {
-          puts("The following is the highest score winner's information:");
-          if (target[i]) {
-            PrintInfo(target[i]);
-          } else {
-            break;
-          }
+        if (target[i]) {
+          PrintInfo(target[i]);
+        } else {
+          break;
         }
       }
     }
@@ -627,7 +644,7 @@ InfoNode *SearchHighest(InfoNode *head) {
   return head;
 }
 
-InfoNode *SearchInGradeInterval(InfoNode *head) {
+InfoNode * SearchInGradeInterval(InfoNode *head) {
   bool go_on = true;
   bool sure = false;
   char choice;
@@ -666,7 +683,12 @@ InfoNode *SearchInGradeInterval(InfoNode *head) {
         break;
       }
     }
-    head = InGradeInterval(head, datum);
+    int interval[2];
+    puts("Please enter a score interval in a format similar to 30-80:");
+    puts("The '-' between the two numbers is a must.");
+    puts("The number behind must be larger than the previous one.");
+    scanf("%d%*c%d%*c", &interval[0], &interval[1]);
+    InGradeInterval(head, datum, interval, 1);
     puts("Please confirm whether to continue this operation");
     sure = YesOrNo();
     if (!sure) {
@@ -676,24 +698,22 @@ InfoNode *SearchInGradeInterval(InfoNode *head) {
   return head;
 }
 
-InfoNode *InGradeInterval(InfoNode *head, DatumEnum datum) {
-  int interval[2];
-  InfoNode *current = head->next;
+void InGradeInterval(InfoNode *head, DatumEnum datum, int interval[], int sign) {
   bool found = false;
-  puts("Please enter a score interval in a format similar to 30-80:");
-  puts("The '-' between the two numbers is a must.");
-  puts("The number behind must be larger than the previous one.");
-  scanf("%d%*c%d%*c", &interval[0], &interval[1]);
   head = BubbleSort(head, datum, Desc);
+  InfoNode *current = head->next;
   int counter = 0;
   while (current) {
     if (current->grade[datum] <= interval[1]) {
-      if (current->grade[datum] >= interval[0]) {
-        if (!current) {
+      if (current->grade[datum] > interval[0]) {
+        if (!current && sign) {
           puts("The following are eligible data:");
-          counter++;
         }
-        PrintInfo(current);
+        counter++;
+        if (sign) {
+          PrintInfo(current);
+
+        }
         found = true;
       }
     }
@@ -702,12 +722,71 @@ InfoNode *InGradeInterval(InfoNode *head, DatumEnum datum) {
   if (!found) {
     puts("The score of this subject without any student is in this interval");
   } else {
+    float rate;
+    rate = (float)counter / num_info * 100;
     if (counter == 1) {
-      printf("A total of %d student is eligible.", counter);
+      printf("A total of %d student is eligible.\n", counter);
+      printf("The proportion of students in this grade interval is: %-2.2f%%\n", rate);
     } else {
-      printf("A total of %d students are eligible.", counter);
+      printf("A total of %d students are eligible.\n", counter);
+      printf("The proportion of students in this grade interval is: %-2.2f%%\n", rate);
     }
   }
-  return head;
 }
 
+void Statistics(InfoNode * head) {
+  bool go_on = true;
+  bool sure = false;
+  char choice;
+  DatumEnum datum = Average;
+  while (go_on) {
+    puts("Please select a query subject:");
+    puts("M) Math");
+    puts("C) Chinese");
+    puts("E) English");
+    puts("B) Back to previous");
+    scanf("%c%*c", &choice);
+    switch (choice) {
+      case 'M':
+      {
+        datum = Math;
+        break;
+      }
+      case 'C':
+      {
+        datum = Chinese;
+        break;
+      }
+      case 'E':
+      {
+        datum = English;
+        break;
+      }
+      case 'B':
+      {
+        go_on = false;
+        break;
+      }
+      default:
+      {
+        puts("Invalid input! Please try again.");
+        break;
+      }
+    }
+    if (choice == 'M' || choice == 'C' || choice == 'E') {
+      int interval[2] = {0, 20};
+      int i;
+      for (i = 0; i < 5; i++) {
+        interval[0] = i * 20;
+        interval[1] = interval[0] + 20;
+        printf("Interval: %-2d - %-2d:\n", interval[0], interval[1]);
+        InGradeInterval(head, datum, interval, 0);
+      }
+    }
+  }
+  puts("Please confirm whether to continue this operation");
+  sure = YesOrNo();
+  if (!sure) {
+    go_on = false;
+  }
+}

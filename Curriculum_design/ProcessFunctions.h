@@ -45,6 +45,8 @@ InfoNode * SearchHighest(InfoNode * head);
 
 InfoNode * SearchInGradeInterval(InfoNode * head);
 
-InfoNode * InGradeInterval(InfoNode * head, DatumEnum datum);
+void InGradeInterval(InfoNode * head, DatumEnum datum, int interval[], int sign);
+
+void Statistics(InfoNode * head);
 
 #endif // !PROCESSFUNCTIONS_H

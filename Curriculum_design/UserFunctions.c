@@ -5,18 +5,18 @@
 #include "OutputFunctions.h"
 
 void DisplayWelcome(void) {
-  puts("Welcome to the student achievement management systems.");
+  puts("\nWelcome to the student achievement management systems.\n");
 }
 
 void DisplayFirstLevelMenu(void) {
-  puts("Please choose what to do:");
+  puts("\nPlease choose what to do:");
   puts("A) Add Student Informations\t\t\tD) Delete Student Informations");
   puts("S) Search and Output Student Informations\tM) Modify Student Informations");
   puts("P) Print Out All Existing Data\t\t\tE) Exit This System");
 }
 
 void DisplayTheSearchMenu(void) {
-  puts("Please select the conditions for information search:");
+  puts("\nPlease select the conditions for information search:");
   puts("a) Output all data in descending order of average");
   puts("b) Output all data in descending order of grade");
   puts("c) Output all data in lexicographic order by name");
@@ -25,6 +25,7 @@ void DisplayTheSearchMenu(void) {
   puts("f) Search and output information based on student name");
   puts("g) Search the highest score of a subject and output");
   puts("h) Search students in a grade interval of a subject and output");
+  puts("i) Count the proportion of students in each score segment");
   puts("B) Back to previous");
 }
 
@@ -50,7 +51,7 @@ InfoNode * EnsureDeleteInfo(InfoNode *head) {
   bool go_on = true;
   char choice;
   while (go_on) {
-    puts("Please choose what to do: ");
+    puts("\nPlease choose what to do: ");
     puts("D) I am sure I wanna delete an information");
     puts("B) Back to previous");
     scanf("%c%*c", &choice);
@@ -79,7 +80,7 @@ InfoNode * EnsureModifyInfo(InfoNode *head) {
   bool go_on = true;
   char choice;
   while (go_on) {
-    puts("Please choose what to do:");
+    puts("\nPlease choose what to do:");
     puts("M) I am sure I wanna modify an information.");
     puts("B) Back to previous");
     scanf("%c%*c", &choice);

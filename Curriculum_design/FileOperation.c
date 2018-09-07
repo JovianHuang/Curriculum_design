@@ -3,14 +3,12 @@
 #include "FileOperation.h"
 
 InfoNode * FileCheck(InfoNode *head) {
-  int status = 1;
   FILE *fp;
   if ((fp = fopen("database.dat", "rb")) == NULL) {
-    status = num_info = 0;
+    num_info = 0;
     puts("Local database file does not exit.");
     if ((fp = fopen("database.dat", "wb")) != NULL) {
       puts("Local database file which named as \"database.dat\" has been created.");
-      status = 1;
     }
   } else {
     puts("Local database file already exists.");
@@ -19,9 +17,7 @@ InfoNode * FileCheck(InfoNode *head) {
     if (fread(current, size_info, 1, fp)) {
       fclose(fp);
       fp = fopen("database.dat", "rb");
-      if (!FileToLinkedList(fp, head)) {
-        status = 2;
-      }
+      FileTopointedList(fp, head);
     } else {
       puts("No data exists in the local database file.");
       num_info = 0;
@@ -31,7 +27,7 @@ InfoNode * FileCheck(InfoNode *head) {
   return head;
 }
 
-InfoNode * FileToLinkedList(FILE *fp, InfoNode *head) {
+InfoNode * FileTopointedList(FILE *fp, InfoNode *head) {
   int size_info = sizeof(InfoNode);
   InfoNode *current = (InfoNode *)malloc(size_info);
   InfoNode *pre = NULL;
@@ -42,6 +38,7 @@ InfoNode * FileToLinkedList(FILE *fp, InfoNode *head) {
     pre = current;
     current = (InfoNode *)malloc(size_info);
     pre->next = current;
+    num_info++;
   }
   pre->next = NULL;
   free(current);
@@ -55,7 +52,7 @@ void SaveToFile(InfoNode *head) {
   InfoNode *current = head->next;
   while (current) {
     if (fwrite(current, size_info, 1, fp) != 1) {
-      puts("File write error");
+      puts("Filze write error");
     }
     current = current->next;
   }

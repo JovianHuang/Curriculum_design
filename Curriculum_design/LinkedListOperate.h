@@ -1,5 +1,5 @@
-#ifndef LINKEDLISTOPERATE_H
-#define LINKEDLISTOPERATE_H
+#ifndef pointedLISTOPERATE_H
+#define pointedLISTOPERATE_H
 
 void FreeMemory(InfoNode *head);
 
@@ -17,4 +17,4 @@ InfoNode * CopyList(InfoNode * source);
 
 InfoNode * CreateNode(InfoNode *head);
 
-#endif // !LINKEDLISTOPERATE_H
+#endif // !pointedLISTOPERATE_H

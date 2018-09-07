@@ -3,8 +3,8 @@
 * @Author: 		JovianHuang
 * @StudentID:	416125000301
 * @Unit:		Class II, CS, School of IE, Hebei GEO University
-* @Description:student achievement management system. (Linked List Version)
-* @Version:		1.8.11.180831_alpha
+* @Description:student achievement management system. (pointed List Version)
+* @Version:		1.9.21.180903_alpha
 * =========================================================================== *
 */
 #include "standard.h"
@@ -17,8 +17,7 @@
 #include "FileOperation.h"
 #include "ProcessFunctions.h"
 
-int main(void)
-{
+int main(void) {
   DisplayWelcome();
   InfoNode *head;
   head = CreateHeadNode();
